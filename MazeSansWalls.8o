@@ -22,6 +22,8 @@
 	
 	loop
 		clear
+		drawframe
+		
 		i  := upleft
     computeIoffset
 		i  += tn
@@ -54,6 +56,52 @@ again
 	tn <<= tn
 	return
 
+: drawframe
+  v4 := 0
+  v5 := 0
+	
+	
+  i := hline
+	loop
+	  sprite v4 v5 1
+		v4 += 8
+    while v4 != 64
+	again
+
+  v4 := 0
+  v5 := 31
+
+	loop
+	  sprite v4 v5 1
+		v4 += 8
+    while v4 != 64
+	again
+	
+	i := vline
+  v4 := 0
+  v5 := 1
+	
+	loop
+	  sprite v4 v5 1
+		v5 += 1
+    while v5 != 31
+	again
+
+  v4 := 63
+  v5 := 1
+	loop
+	  sprite v4 v5 1
+		v5 += 1
+    while v5 != 31
+	again
+	
+
+  return
+	
+: hline
+0xFF
+: vline
+0b10000000
 
 : upleft
 0x00 0x7C 0x40 0x50 0x48 0x44 0x02 0x00
