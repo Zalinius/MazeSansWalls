@@ -10,26 +10,20 @@
 :const WIDTH 3
 :const HEIGHT 3
 :const SIZE 8 #memory label size
+:const CONT 12 #memory offset between main and v4 := key
 
 : main
   tx := 1
   ty := 1
-	computeIoffset
-  i  := upleft
-	i  += tn
-	
-	v9 := 0
 	
 	loop
 		clear
 		drawframe
-		
-		i  := upleft
     computeIoffset
-		i  += tn
+   	jump0 tile-table
 
-    sprite v9 v9 8
 		v4 := key
+		
 		if v4 == W then ty -= 1
 		if v4 == A then tx -= 1
 		if v4 == S then ty += 1
@@ -51,7 +45,6 @@ again
 	tn += ty
 	tn += ty
 	tn += ty
-	tn <<= tn
 	tn <<= tn
 	tn <<= tn
 	return
@@ -98,10 +91,80 @@ again
 
   return
 	
+	
+: tile-table
+  drawAA          return
+	drawBA          return
+  drawCA          return
+	drawAB          return
+  drawBB          return
+	drawCB          return
+  drawAC          return
+	drawBC          return
+  drawCC          return
+
+
+: drawAA
+  i := upleft
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawBA
+  i := up
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawCA
+  i := upright
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawAB
+  i := left
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawBB
+  i := center
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawCB
+  i := right
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawAC
+  i := downleft
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawBC
+  i := down
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+: drawCC
+  i := downright
+  sprite v9 v9 8
+	v0 := CONT
+	jump0 main
+
+	
 : hline
 0xFF
 : vline
 0b10000000
+
+
 
 : upleft
 0x00 0x7C 0x40 0x50 0x48 0x44 0x02 0x00
