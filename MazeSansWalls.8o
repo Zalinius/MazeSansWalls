@@ -7,8 +7,8 @@
 :const S 8
 :const D 9
 
-:const WIDTH 3
-:const HEIGHT 3
+:const WIDTH 8
+:const HEIGHT 8
 :const SIZE 8 #memory label size
 :const CONT 12 #memory offset between main and v4 := key
 
@@ -20,7 +20,6 @@
 		clear
 		drawframe
     computeIoffset
-   	jump0 tile-table
 
 		v4 := key
 		
@@ -45,8 +44,14 @@ again
 	tn += ty
 	tn += ty
 	tn += ty
+	tn += ty
+	tn += ty
+	tn += ty
+	tn += ty
+	tn += ty
 	tn <<= tn
 	tn <<= tn
+	jump0 tile-table
 	return
 
 : drawframe
@@ -93,78 +98,343 @@ again
 	
 	
 : tile-table
-  drawAA          return
-	drawBA          return
-  drawCA          return
-	drawAB          return
-  drawBB          return
-	drawCB          return
-  drawAC          return
-	drawBC          return
-  drawCC          return
-
+  drawAA        return
+  drawBA        return
+  drawCA        return
+  drawDA        return
+  drawEA        return
+  drawFA        return
+  drawGA        return
+  drawHA        return
+  drawAB        return
+  drawBB        return
+  drawCB        return
+  drawDB        return
+  drawEB        return
+  drawFB        return
+  drawGB        return
+  drawHB        return
+  drawAC        return
+  drawBC        return
+  drawCC        return
+  drawDC        return
+  drawEC        return
+  drawFC        return
+  drawGC        return
+  drawHC        return
+  drawAD        return
+  drawBD        return
+  drawCD        return
+  drawDD        return
+  drawED        return
+  drawFD        return
+  drawGD        return
+  drawHD        return
+  drawAE        return
+  drawBE        return
+  drawCE        return
+  drawDE        return
+  drawEE        return
+  drawFE        return
+  drawGE        return
+  drawHE        return
+  drawAF        return
+  drawBF        return
+  drawCF        return
+  drawDF        return
+  drawEF        return
+  drawFF        return
+  drawGF        return
+  drawHF        return
+  drawAG        return
+  drawBG        return
+  drawCG        return
+  drawDG        return
+  drawEG        return
+  drawFG        return
+  drawGG        return
+  drawHG        return
+  drawAH        return
+  drawBH        return
+  drawCH        return
+  drawDH        return
+  drawEH        return
+  drawFH        return
+  drawGH        return
+  drawHH        return
 
 : drawAA
   i := upleft
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
 
 : drawBA
   i := up
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
 
 : drawCA
   i := upright
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
+
+: drawDA
+  sprite v9 v9 8
+  return
+
+: drawEA
+  sprite v9 v9 8
+  return
+
+: drawFA
+  sprite v9 v9 8
+  return
+
+: drawGA
+  sprite v9 v9 8
+  return
+
+: drawHA
+  sprite v9 v9 8
+  return
 
 : drawAB
   i := left
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
 
 : drawBB
   i := center
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
 
 : drawCB
   i := right
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
+
+: drawDB
+  sprite v9 v9 8
+  return
+
+: drawEB
+  sprite v9 v9 8
+  return
+
+: drawFB
+  sprite v9 v9 8
+  return
+
+: drawGB
+  sprite v9 v9 8
+  return
+
+: drawHB
+  sprite v9 v9 8
+  return
 
 : drawAC
   i := downleft
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
 
 : drawBC
   i := down
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
 
 : drawCC
   i := downright
   sprite v9 v9 8
-	v0 := CONT
-	jump0 main
+  return
+
+: drawDC
+  sprite v9 v9 8
+  return
+
+: drawEC
+  sprite v9 v9 8
+  return
+
+: drawFC
+  sprite v9 v9 8
+  return
+
+: drawGC
+  sprite v9 v9 8
+  return
+
+: drawHC
+  sprite v9 v9 8
+  return
+
+: drawAD
+  sprite v9 v9 8
+  return
+
+: drawBD
+  sprite v9 v9 8
+  return
+
+: drawCD
+  sprite v9 v9 8
+  return
+
+: drawDD
+  sprite v9 v9 8
+  return
+
+: drawED
+  sprite v9 v9 8
+  return
+
+: drawFD
+  sprite v9 v9 8
+  return
+
+: drawGD
+  sprite v9 v9 8
+  return
+
+: drawHD
+  sprite v9 v9 8
+  return
+
+: drawAE
+  sprite v9 v9 8
+  return
+
+: drawBE
+  sprite v9 v9 8
+  return
+
+: drawCE
+  sprite v9 v9 8
+  return
+
+: drawDE
+  sprite v9 v9 8
+  return
+
+: drawEE
+  sprite v9 v9 8
+  return
+
+: drawFE
+  sprite v9 v9 8
+  return
+
+: drawGE
+  sprite v9 v9 8
+  return
+
+: drawHE
+  sprite v9 v9 8
+  return
+
+: drawAF
+  sprite v9 v9 8
+  return
+
+: drawBF
+  sprite v9 v9 8
+  return
+
+: drawCF
+  sprite v9 v9 8
+  return
+
+: drawDF
+  sprite v9 v9 8
+  return
+
+: drawEF
+  sprite v9 v9 8
+  return
+
+: drawFF
+  sprite v9 v9 8
+  return
+
+: drawGF
+  sprite v9 v9 8
+  return
+
+: drawHF
+  sprite v9 v9 8
+  return
+
+: drawAG
+  sprite v9 v9 8
+  return
+
+: drawBG
+  sprite v9 v9 8
+  return
+
+: drawCG
+  sprite v9 v9 8
+  return
+
+: drawDG
+  sprite v9 v9 8
+  return
+
+: drawEG
+  sprite v9 v9 8
+  return
+
+: drawFG
+  sprite v9 v9 8
+  return
+
+: drawGG
+  sprite v9 v9 8
+  return
+
+: drawHG
+  sprite v9 v9 8
+  return
+
+: drawAH
+  sprite v9 v9 8
+  return
+
+: drawBH
+  sprite v9 v9 8
+  return
+
+: drawCH
+  sprite v9 v9 8
+  return
+
+: drawDH
+  sprite v9 v9 8
+  return
+
+: drawEH
+  sprite v9 v9 8
+  return
+
+: drawFH
+  sprite v9 v9 8
+  return
+
+: drawGH
+  sprite v9 v9 8
+  return
+
+: drawHH
+  sprite v9 v9 8
+  return
+
+
 
 	
 : hline
 0xFF
 : vline
 0b10000000
-
-
 
 : upleft
 0x00 0x7C 0x40 0x50 0x48 0x44 0x02 0x00
