@@ -2,6 +2,7 @@
 :alias tx v1 # PERMANENT
 :alias ty v2 # PERMANENT
 
+:alias temp v7
 :alias notsure v9
 :alias game_state vA
 :alias ZERO vE
@@ -59,17 +60,23 @@
 again
 	
 : interact
+if tx == 4 begin
+  if ty == 4 then teleport
+end
 hasKey
 if v0 == FALSE begin
     if tx == 3 begin
-		    if ty == 0 then game_state |= v7
+		    if ty == 0 then game_state |= temp
 		end
 end
-
+: teleport
+tx := random 0b00000111
+ty := random 0b00000111
+return
 : hasKey #puts boolean into v0
 v0 := game_state
-v7 := KEY_FOUND
-v0 &= v7
+temp := KEY_FOUND
+v0 &= temp
 return
 	
 : computeIoffset #into tn
@@ -86,7 +93,57 @@ return
 	tn <<= tn
 	jump0 tile-table
 	return
+	
+: drawHPath
+  v4 := 0
+  v5 := 12
+	
+	loop
+	i  := hPathA
+	computeHash
+	temp := 0b00011000
+  v0 &=	temp
+	i  += v0
+	
+  sprite v4 v5 8
+ 		v4 += 8
+	  while v4 != 64 
+	again
+	
+	return
 
+: drawVPath
+  v4 := 28
+  v5 := 0
+	
+	loop
+  	i  := vPathA
+	  computeHash
+	  temp := 0b00011000
+    v0 &=	temp
+	i  += v0
+	
+  sprite v4 v5 8
+ 		v5 += 8
+	  while v5 != 32 
+	again
+
+ return
+
+: computeHash
+	v0 := 7
+	v0 += tx
+	v0 <<= v0
+  v0 <<= v0
+	v0 <<= v0
+	v0 += ty
+  v0 <<= v0
+	v0 <<= v0
+	v0 += v4
+	v0 += v5
+	v0 >>= v0
+	return
+		
 : drawframe
   v4 := 0
   v5 := 0
@@ -217,7 +274,7 @@ return
   return
 
 : drawEA
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFA
@@ -252,7 +309,7 @@ return
   return
 
 : drawEB
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFB
@@ -287,7 +344,7 @@ return
   return
 
 : drawEC
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFC
@@ -312,14 +369,16 @@ return
 
 : drawCD
   sprite v9 v9 8
-  return
+  return  sprite v9 v9 8
+
 
 : drawDD
+  i := spiralSprite
   sprite v9 v9 8
   return
 
 : drawED
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFD
@@ -335,35 +394,36 @@ return
   return
 
 : drawAE
-  sprite v9 v9 8
+  drawHPath
   return
 
 : drawBE
-  sprite v9 v9 8
+  drawHPath
   return
 
 : drawCE
-  sprite v9 v9 8
-  return
+  drawHPath
+	return
 
 : drawDE
-  sprite v9 v9 8
+  drawHPath
   return
 
 : drawEE
-  sprite v9 v9 8
+  drawHPath
+  drawVPath
   return
 
 : drawFE
-  sprite v9 v9 8
+  drawHPath
   return
 
 : drawGE
-  sprite v9 v9 8
+  drawHPath
   return
 
 : drawHE
-  sprite v9 v9 8
+  drawHPath
   return
 
 : drawAF
@@ -383,7 +443,7 @@ return
   return
 
 : drawEF
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFF
@@ -415,7 +475,7 @@ return
   return
 
 : drawEG
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFG
@@ -447,7 +507,7 @@ return
   return
 
 : drawEH
-  sprite v9 v9 8
+  drawVPath
   return
 
 : drawFH
@@ -467,10 +527,31 @@ return
   i := keySprite
   sprite v9 v9 8
   return
+	
+: spiralSprite
+0x00 0x3C 0x42 0x92 0xAA 0x9C 0x41 0x3E
 
 : keySprite
 0x3C 0x24 0x24 0x3C 0x10 0x18 0x10 0x1C
-	
+
+: hPathA
+0xFF 0x26 0xFF 0x52 0x52 0xFF 0x92 0xFF
+: hPathB
+0xFF 0x52 0xFF 0x49 0x49 0xFF 0xA4 0xFF
+: hPathC
+0xFF 0x16 0xFF 0x49 0x6A 0xFF 0x22 0xBF
+: hPathD
+0xFF 0xA6 0xFF 0x4A 0x52 0xFF 0xA5 0xFF
+
+: vPathA
+0xBD 0xA7 0xFD 0xA5 0xA7 0xFD 0xA5 0xE7
+: vPathB
+0xFD 0xA7 0xA5 0xFD 0xA7 0xFD 0xA7 0xA5
+: vPathC	
+0xBF 0xA5 0xFD 0xA7 0xFD 0xA5 0xFD 0xA7
+: vPathD
+0xAF 0xE7 0xA5 0xBD 0xE5 0xA7 0xBD 0xE5
+
 : hline
 0xFF
 : vline
