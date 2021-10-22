@@ -3,7 +3,6 @@
 :alias ty v2 # PERMANENT
 
 :alias temp v7
-:alias temp2 v8
 :alias notsure v9
 :alias game_state vA
 :alias ZERO vE
@@ -22,8 +21,6 @@
 
 :const TRUE  1
 :const FALSE 0
-
-:const THREE_BIT_MASK 0b00000111
 
 :const KEY_FOUND 0b00000001
 :const FLAG_B 0b00000010
