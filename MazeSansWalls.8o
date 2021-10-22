@@ -1,18 +1,37 @@
-:alias tn v0
-:alias tx v1
-:alias ty v2
+:alias tn v0 #also used by internal ops, like jump0
+:alias tx v1 # PERMANENT
+:alias ty v2 # PERMANENT
+
+:alias notsure v9
+:alias game_state vA
+:alias ZERO vE
+:alias carry_flag vF
 
 :const W 5
 :const A 7
 :const S 8
 :const D 9
+:const E 6 #Interact key
 
 :const WIDTH 8
 :const HEIGHT 8
 :const SIZE 8 #memory label size
 :const CONT 12 #memory offset between main and v4 := key
 
+:const TRUE  1
+:const FALSE 0
+
+:const KEY_FOUND 0b00000001
+:const FLAG_B 0b00000010
+:const FLAG_C 0b00000100
+:const FLAG_D 0b00001000
+:const FLAG_E 0b00010000
+:const FLAG_F 0b00100000
+:const FLAG_G 0b01000000
+:const FLAG_H 0b10000000
+
 : main
+  
   tx := 1
   ty := 1
 	
@@ -27,6 +46,7 @@
 		if v4 == A then tx -= 1
 		if v4 == S then ty += 1
 		if v4 == D then tx += 1
+		if v4 == E then interact
 		
 		if tx == WIDTH  then tx := 0
 		if ty == HEIGHT then ty := 0
@@ -38,6 +58,19 @@
 
 again
 	
+: interact
+hasKey
+if v0 == FALSE begin
+    if tx == 3 begin
+		    if ty == 0 then game_state |= v7
+		end
+end
+
+: hasKey #puts boolean into v0
+v0 := game_state
+v7 := KEY_FOUND
+v0 &= v7
+return
 	
 : computeIoffset #into tn
   tn := tx
@@ -179,7 +212,8 @@ again
   return
 
 : drawDA
-  sprite v9 v9 8
+  hasKey
+  if v0 == FALSE then drawKey
   return
 
 : drawEA
@@ -429,7 +463,13 @@ again
   return
 
 
+: drawKey
+  i := keySprite
+  sprite v9 v9 8
+  return
 
+: keySprite
+0x3C 0x24 0x24 0x3C 0x10 0x18 0x10 0x1C
 	
 : hline
 0xFF
