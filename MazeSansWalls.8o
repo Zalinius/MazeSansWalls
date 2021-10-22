@@ -58,21 +58,26 @@
 		if ty == HEIGHT then ty -= 1
 
 again
+return
 	
 : interact
 if tx == 4 begin
   if ty == 4 then teleport
 end
+
 hasKey
 if v0 == FALSE begin
     if tx == 3 begin
 		    if ty == 0 then game_state |= temp
 		end
 end
+return
+
 : teleport
 tx := random 0b00000111
 ty := random 0b00000111
 return
+
 : hasKey #puts boolean into v0
 v0 := game_state
 temp := KEY_FOUND
