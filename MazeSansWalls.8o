@@ -3,6 +3,7 @@
 :alias ty v2 # PERMANENT
 
 :alias temp v7
+:alias temp2 v8
 :alias notsure v9
 :alias game_state vA
 :alias ZERO vE
@@ -21,6 +22,8 @@
 
 :const TRUE  1
 :const FALSE 0
+
+:const THREE_BIT_MASK 0b00000111
 
 :const KEY_FOUND 0b00000001
 :const FLAG_B 0b00000010
@@ -102,8 +105,8 @@ return
 	i  := hPathA
 	computeHash
 	temp := 0b00011000
-  v0 &=	temp
-	i  += v0
+  temp &=	v0
+	i  += temp
 	
   sprite v4 v5 8
  		v4 += 8
@@ -121,27 +124,44 @@ return
 	  computeHash
 	  temp := 0b00011000
     v0 &=	temp
-	i  += v0
+	  i  += v0
 	
-  sprite v4 v5 8
+    sprite v4 v5 8
  		v5 += 8
-	  while v5 != 32 
+	  
+		while v5 != 32 
 	again
 
  return
 
 : computeHash
-	v0 := 7
-	v0 += tx
-	v0 <<= v0
-  v0 <<= v0
-	v0 <<= v0
-	v0 += ty
-  v0 <<= v0
-	v0 <<= v0
+	v0 += 7
 	v0 += v4
 	v0 += v5
-	v0 >>= v0
+	shiftAndCheck
+	shiftAndCheck
+	v0 -= v4
+	v0 -= v5
+	
+
+  v0 += tx
+	shiftAndCheck
+	shiftAndCheck
+	shiftAndCheck
+	shiftAndCheck
+  v0 -= tx
+	
+  v0 += ty
+	shiftAndCheck
+	shiftAndCheck
+	shiftAndCheck
+  v0 -= ty
+	
+	return
+	
+: shiftAndCheck
+ 	v0 <<= v0
+  if carry_flag == 1 then v0 += 1
 	return
 		
 : drawframe
