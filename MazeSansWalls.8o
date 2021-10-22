@@ -56,9 +56,14 @@
 		if tx == WIDTH  then tx -= 1
 		if ty == HEIGHT then ty -= 1
 
-again
+  again
+  return
 	
 : interact
+if tx == 4 begin
+  if ty == 4 then teleport
+end
+
 hasKey
 if v0 == FALSE begin
     if tx == 3 begin
@@ -70,6 +75,11 @@ end
 v0 := game_state
 v7 := KEY_FOUND
 v0 &= v7
+return
+
+: teleport
+tx := random 0b00000111
+ty := random 0b00000111
 return
 	
 : computeIoffset #into tn
@@ -126,8 +136,6 @@ return
     while v5 != 31
 	again
 	
-
-  return
 	
 	
 : tile-table
@@ -315,6 +323,7 @@ return
   return
 
 : drawDD
+  i := spiralSprite
   sprite v9 v9 8
   return
 
@@ -468,6 +477,8 @@ return
   sprite v9 v9 8
   return
 
+: spiralSprite
+0x00 0x3C 0x42 0x92 0xAA 0x9C 0x41 0x3E
 : keySprite
 0x3C 0x24 0x24 0x3C 0x10 0x18 0x10 0x1C
 	
