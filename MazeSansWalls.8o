@@ -33,12 +33,12 @@
 
 : main
   
-  tx := 1
-  ty := 1
+  tx := 4
+  ty := 4
 	
 	loop
 		clear
-		drawframe
+		#drawframe
     computeIoffset
 
 		v4 := key
@@ -61,28 +61,47 @@ again
 return
 	
 : interact
-if tx == 4 begin
-  if ty == 4 then teleport
-end
 
-hasKey
-if v0 == FALSE begin
-    if tx == 3 begin
-		    if ty == 0 then game_state |= temp
+	checkIfPortal
+
+	hasKey
+	if v0 == FALSE begin
+    if tx == 6 begin
+		  if ty == 6 then game_state |= temp
 		end
-end
+	end
 return
+
+: checkIfPortal
+  v0 := 0
+  if tx == 2 begin
+  	if ty == 2 then v0 := 1
+	end
+  if tx == 6 begin
+  	if ty == 3 then v0 := 1
+	end
+  if tx == 3 begin
+  	if ty == 5 then v0 := 1
+	end
+	
+	if v0 == 1 then teleport
+	
+	return
+
 
 : teleport
-tx := random 0b00000111
-ty := random 0b00000111
-return
+	tx := random 0b00000111
+	ty := random 0b00000111
+	v0 := ZERO
+	v0 += 10
+	buzzer := v0
+	return
 
 : hasKey #puts boolean into v0
-v0 := game_state
-temp := KEY_FOUND
-v0 &= temp
-return
+	v0 := game_state
+	temp := KEY_FOUND
+	v0 &= temp
+	return
 	
 : computeIoffset #into tn
   tn := tx
@@ -98,6 +117,53 @@ return
 	tn <<= tn
 	jump0 tile-table
 	return
+	
+
+: computeHash
+	v0 += 7
+	v0 += v4
+	v0 += v5
+	shiftAndCheck
+	shiftAndCheck
+	v0 -= v4
+	v0 -= v5
+	
+
+  v0 += tx
+	shiftAndCheck
+	shiftAndCheck
+	shiftAndCheck
+	shiftAndCheck
+  v0 -= tx
+	
+  v0 += ty
+	shiftAndCheck
+	shiftAndCheck
+	shiftAndCheck
+  v0 -= ty
+	
+	return
+	
+: shiftAndCheck
+ 	v0 <<= v0
+  if carry_flag == 1 then v0 += 1
+	return
+
+
+
+###########
+# DRAWING #
+###########
+
+: drawKey
+  i := keySprite
+  sprite v9 v9 8
+  return
+	
+: drawSpiral
+  i := spiralSprite
+  sprite v9 v9 8
+return
 	
 : drawHPath
   v4 := 0
@@ -136,78 +202,6 @@ return
 
  return
 
-: computeHash
-	v0 += 7
-	v0 += v4
-	v0 += v5
-	shiftAndCheck
-	shiftAndCheck
-	v0 -= v4
-	v0 -= v5
-	
-
-  v0 += tx
-	shiftAndCheck
-	shiftAndCheck
-	shiftAndCheck
-	shiftAndCheck
-  v0 -= tx
-	
-  v0 += ty
-	shiftAndCheck
-	shiftAndCheck
-	shiftAndCheck
-  v0 -= ty
-	
-	return
-	
-: shiftAndCheck
- 	v0 <<= v0
-  if carry_flag == 1 then v0 += 1
-	return
-		
-: drawframe
-  v4 := 0
-  v5 := 0
-	
-	
-  i := hline
-	loop
-	  sprite v4 v5 1
-		v4 += 8
-    while v4 != 64
-	again
-
-  v4 := 0
-  v5 := 31
-
-	loop
-	  sprite v4 v5 1
-		v4 += 8
-    while v4 != 64
-	again
-	
-	i := vline
-  v4 := 0
-  v5 := 1
-	
-	loop
-	  sprite v4 v5 1
-		v5 += 1
-    while v5 != 31
-	again
-
-  v4 := 63
-  v5 := 1
-	loop
-	  sprite v4 v5 1
-		v5 += 1
-    while v5 != 31
-	again
-	
-
-  return
-	
 	
 : tile-table
   drawAA        return
@@ -276,23 +270,15 @@ return
   drawHH        return
 
 : drawAA
-  i := upleft
-  sprite v9 v9 8
   return
 
 : drawBA
-  i := up
-  sprite v9 v9 8
   return
 
 : drawCA
-  i := upright
-  sprite v9 v9 8
   return
 
 : drawDA
-  hasKey
-  if v0 == FALSE then drawKey
   return
 
 : drawEA
@@ -300,34 +286,24 @@ return
   return
 
 : drawFA
-  sprite v9 v9 8
   return
 
 : drawGA
-  sprite v9 v9 8
   return
 
 : drawHA
-  sprite v9 v9 8
   return
 
 : drawAB
-  i := left
-  sprite v9 v9 8
   return
 
 : drawBB
-  i := center
-  sprite v9 v9 8
   return
 
 : drawCB
-  i := right
-  sprite v9 v9 8
   return
 
 : drawDB
-  sprite v9 v9 8
   return
 
 : drawEB
@@ -335,34 +311,25 @@ return
   return
 
 : drawFB
-  sprite v9 v9 8
   return
 
 : drawGB
-  sprite v9 v9 8
   return
 
 : drawHB
-  sprite v9 v9 8
   return
 
 : drawAC
-  i := downleft
-  sprite v9 v9 8
   return
 
 : drawBC
-  i := down
-  sprite v9 v9 8
   return
 
 : drawCC
-  i := downright
-  sprite v9 v9 8
+	drawSpiral
   return
 
 : drawDC
-  sprite v9 v9 8
   return
 
 : drawEC
@@ -370,33 +337,24 @@ return
   return
 
 : drawFC
-  sprite v9 v9 8
   return
 
 : drawGC
-  sprite v9 v9 8
   return
 
 : drawHC
-  sprite v9 v9 8
   return
 
 : drawAD
-  sprite v9 v9 8
   return
 
 : drawBD
-  sprite v9 v9 8
   return
 
 : drawCD
-  sprite v9 v9 8
-  return  sprite v9 v9 8
-
+  return
 
 : drawDD
-  i := spiralSprite
-  sprite v9 v9 8
   return
 
 : drawED
@@ -404,15 +362,13 @@ return
   return
 
 : drawFD
-  sprite v9 v9 8
   return
 
 : drawGD
-  sprite v9 v9 8
+  drawSpiral
   return
 
 : drawHD
-  sprite v9 v9 8
   return
 
 : drawAE
@@ -449,19 +405,16 @@ return
   return
 
 : drawAF
-  sprite v9 v9 8
   return
 
 : drawBF
-  sprite v9 v9 8
   return
 
 : drawCF
-  sprite v9 v9 8
   return
 
 : drawDF
-  sprite v9 v9 8
+  drawSpiral
   return
 
 : drawEF
@@ -469,31 +422,24 @@ return
   return
 
 : drawFF
-  sprite v9 v9 8
   return
 
 : drawGF
-  sprite v9 v9 8
   return
 
 : drawHF
-  sprite v9 v9 8
   return
 
 : drawAG
-  sprite v9 v9 8
   return
 
 : drawBG
-  sprite v9 v9 8
   return
 
 : drawCG
-  sprite v9 v9 8
   return
 
 : drawDG
-  sprite v9 v9 8
   return
 
 : drawEG
@@ -501,31 +447,26 @@ return
   return
 
 : drawFG
-  sprite v9 v9 8
   return
 
 : drawGG
-  sprite v9 v9 8
+	hasKey
+	  if v0 == FALSE then drawKey
   return
 
 : drawHG
-  sprite v9 v9 8
   return
 
 : drawAH
-  sprite v9 v9 8
   return
 
 : drawBH
-  sprite v9 v9 8
   return
 
 : drawCH
-  sprite v9 v9 8
   return
 
 : drawDH
-  sprite v9 v9 8
   return
 
 : drawEH
@@ -533,22 +474,18 @@ return
   return
 
 : drawFH
-  sprite v9 v9 8
   return
 
 : drawGH
-  sprite v9 v9 8
   return
 
 : drawHH
-  sprite v9 v9 8
   return
 
 
-: drawKey
-  i := keySprite
-  sprite v9 v9 8
-  return
+###########
+# SPRITES #
+###########
 	
 : spiralSprite
 0x00 0x3C 0x42 0x92 0xAA 0x9C 0x41 0x3E
