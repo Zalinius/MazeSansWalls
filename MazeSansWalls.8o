@@ -3,6 +3,7 @@
 :alias ty v2 # PERMANENT
 
 :alias temp v7
+:alias temp2 v8
 :alias notsure v9
 :alias game_state vA
 :alias ZERO vE
@@ -188,7 +189,50 @@ return
 	  while v4 != 64 
 	again
 	
-	return
+	
+	#drawFlowers top
+	v4 := 0
+	v5 := 5
+	loop
+		i := smallFlower
+		computeHash
+		temp := 0b00001100
+		temp &= v0
+		if temp == 0 then temp := 4
+		v4 += temp
+
+		computeHash
+		temp  := 0b0000111
+		temp &= v0
+		v5 += temp
+		if v5 > 8 then v5 -= 8
+		
+		sprite v4 v5 3
+	  while v4 < 56
+	again
+
+	#drawFlowers bottom
+	v4 := 0
+	v5 := 26
+	loop
+		i := smallFlower
+		computeHash
+		temp := 0b00001100
+		temp &= v0
+		if temp == 0 then temp := 4
+		v4 += temp
+
+		computeHash
+		temp  := 0b0000111
+		temp &= v0
+		v5 += temp
+		if v5 > 28 then v5 -= 8
+		
+		sprite v4 v5 3
+	  while v4 < 56
+	again
+
+return
 
 : drawVPath
   v4 := 28
@@ -197,15 +241,62 @@ return
 	loop
   	i  := vPathA
 	  computeHash
-	  temp := 0b00011000
-    v0 &=	temp
-	  i  += v0
+	  temp := 0b00011100
+	  temp &=	v0
+	  i  += temp
 	
     sprite v4 v5 8
  		v5 += 8
 	  
 		while v5 != 32 
 	again
+	
+	#drawFlowers left
+	v4 := 0
+	v5 := 0
+	loop
+		i := smallFlower
+		computeHash
+		temp := 0b00000011
+		temp &= v0
+		if temp == 0 then temp := 2
+		v5 += temp
+
+		computeHash
+		temp  := 0b00001100
+		temp &= v0
+		if temp == 0 then temp := 5
+
+		v4 += temp
+		if v4 > 22 then v4 -= 22
+		
+		sprite v4 v5 3
+	  while v5 < 26
+	again
+
+	#drawFlowers right
+	v4 := 38
+	v5 := 0
+	loop
+		i := smallFlower
+		computeHash
+		temp := 0b00000011
+		temp &= v0
+		if temp == 0 then temp := 2
+		v5 += temp
+
+		computeHash
+		temp  := 0b00001100
+		temp &= v0
+		if temp == 0 then temp := 5
+
+		v4 -= temp
+		if v4 < 38 then v4 += 22
+		
+		sprite v4 v5 3
+	  while v5 < 26
+	again
+
 
  return
 
@@ -516,6 +607,8 @@ return
 0x3C 0x24 0x24 0x3C 0x10 0x18 0x10 0x1C
 
 #decor
+: smallFlower
+0x40 0xA0 0x40
 : twoSmallFlowers
 0x08 0x14 0x08 0x00 0x20 0x50 0x20
 : threeSmallFlowers
