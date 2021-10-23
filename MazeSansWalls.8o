@@ -311,7 +311,11 @@ return
   return
 
 : drawFB
-  return
+  v4 := 28
+	v5 := 12
+	i  := bigFlower
+	sprite v4 v5 8
+return
 
 : drawGB
   return
@@ -388,6 +392,16 @@ return
   return
 
 : drawEE
+  v4 := 4
+	v5 := 2
+	i  := threeSmallFlowers
+	sprite v4 v5 6
+	
+  v4 := 40
+	v5 := 24
+	i  := twoSmallFlowers
+	sprite v4 v5 7
+	
   drawHPath
   drawVPath
   return
@@ -408,7 +422,7 @@ return
   return
 
 : drawBF
-  return
+return
 
 : drawCF
   return
@@ -493,6 +507,16 @@ return
 : keySprite
 0x3C 0x24 0x24 0x3C 0x10 0x18 0x10 0x1C
 
+#decor
+: twoSmallFlowers
+0x08 0x14 0x08 0x00 0x20 0x50 0x20
+: threeSmallFlowers
+0x40 0xA2 0x45 0x12 0x28 0x10
+
+: bigFlower
+0x66 0xDB 0xA5 0x5A 0x5A 0xA5 0xDB 0x66
+
+# path
 : hPathA
 0xFF 0x26 0xFF 0x52 0x52 0xFF 0x92 0xFF
 : hPathB
